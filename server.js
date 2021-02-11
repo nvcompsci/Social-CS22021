@@ -1,10 +1,19 @@
 const express = require('express')
 const app = new express()
 const users = loadData().users
+//3. New posts save on server
+//3.1 create variable posts as empty array
 
 //serve client side files
 app.use(express.static('public'))
 app.use(express.json())
+
+//3.2 define request handler for POST on /posts
+
+//3.2.1. verify the post is at least 5 characters long
+//3.2.2. add to posts array if valid
+//3.2.3. send response 'New post successfully saved.'
+//3.2.4. if invalid send error response
 
 app.post("/login", (req, res) => {
     const user = req.body

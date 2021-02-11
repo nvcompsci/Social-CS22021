@@ -1,10 +1,13 @@
+//2. User can create new post, send to server
 const $postContainer = document.getElementById("posts")
 //1.1 js reference to the section element with id users
 document.getElementById("login")
     .onsubmit = login
-
+//2.1 Set createPost function as onsubmit handler for the create post form 
 spawnPosts()
 //1.4 call function to spawn user elements
+
+//2.2 Define function createPost to send post to server
 
 function login(e) {
     e.preventDefault()

@@ -1,21 +1,28 @@
 const express = require('express')
+const sqlite3 = require('sqlite3')
 const app = new express()
+const db = new sqlite3.Database('./db/social.db')
 const users = loadData().users
 //3. New posts save on server
-//3.1 create variable posts as empty array
-const posts = []
 
 //serve client side files
 app.use(express.static('public'))
 app.use(express.json())
 
+app.get("/posts", (req,res) => {
+    const sql = "SELECT * FROM posts;"
+    db.all(sql,[],(err, rows) => {
+        res.send(rows)
+    })
+})
 //3.2 define request handler for POST on /posts
 app.post("/posts", (req,res)=> {
     const post = req.body;
     //3.2.1. verify the post is at least 5 characters long
     if (post.text.length >= 5) {
         //3.2.2. add to posts array if valid
-        posts.push(post)
+        const sql = "INSERT INTO posts (content, user_id) VALUES (?,?);"
+        db.run(sql,[post.text,post.user_id])
         //3.2.3. send response 'New post successfully saved.'
         res.send({
             message: "Post successfully saved"

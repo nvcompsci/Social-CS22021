@@ -2,6 +2,8 @@
 const $postContainer = document.getElementById("posts")
 //1.1 js reference to the section element with id users
 const $usersContainer = document.getElementById("users")
+//R1.1 js reference to the section element with id items
+
 document.getElementById("login")
     .onsubmit = login
 //2.1 Set createPost function as onsubmit handler for the create post form 
@@ -11,6 +13,7 @@ document.getElementById("createPost")
 spawnPosts()
 //1.4 call function to spawn user elements
 spawnUsers()
+//R1.4 call function to spawn item elements
 
 //2.2 Define function createPost to send post to server
 function createPost(e) {
@@ -81,7 +84,11 @@ function spawnUsers() {
     $usersContainer.innerHTML = usersHTML
 }
 
+//R1.2 define a function to spawn item elements
 
+    //R1.3 each item element should be a div that shows item info
+    //... and has a button that says Buy Now (doesn't work)
+    
 function loadData() {
     return {
         posts: [
@@ -142,6 +149,20 @@ function loadData() {
                 lastName: "Kirkland",
                 gender: "F",
                 age: 17
+            }
+        ],
+        items: [
+            {
+                name: "hotdog",
+                price: 1.99
+            },
+            {
+                name: "Nike Shoes",
+                price: 79.99
+            },
+            {
+                name: "Starbucks Gift Card",
+                price: 25.00
             }
         ]
     }

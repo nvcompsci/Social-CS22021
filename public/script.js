@@ -1,4 +1,5 @@
 //2. User can create new post, send to server
+//R2. User can submit a question
 const $postContainer = document.getElementById("posts")
 //1.1 js reference to the section element with id users
 const $usersContainer = document.getElementById("users")
@@ -9,6 +10,7 @@ document.getElementById("login")
 //2.1 Set createPost function as onsubmit handler for the create post form 
 document.getElementById("createPost")
     .onsubmit = createPost
+//R2.1 Set submitQuestion function as onsubmit handler for the submit question form
 
 spawnPosts()
 //1.4 call function to spawn user elements
@@ -32,6 +34,8 @@ function createPost(e) {
         .then(res => console.log(res.body))
         .catch(error => console.error(error))
 }
+
+//R2.2 Define function submitQuestion to send question to server
 
 function login(e) {
     e.preventDefault()

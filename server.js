@@ -30,4 +30,14 @@ app.post("/posts", (req,res)=> {
     }
 })
 
+//R3. define request handler for POST on /questions
+
+    //R3.1. verify the question is at least 10 characters long
+    
+        //R3.2. add to questions table if valid (only field is content)
+        
+        //R3.3. send response 'Post successfully saved.'
+       
+    //R3.4. if invalid send error response
+
 app.listen(3000, () => console.log("Server started"))

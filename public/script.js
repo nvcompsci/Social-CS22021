@@ -1,17 +1,23 @@
 //2. User can create new post, send to server
+//R2. User can submit a question
 const $postContainer = document.getElementById("posts")
 //1.1 js reference to the section element with id users
 const $usersContainer = document.getElementById("users")
+//R1.1 js reference to the section element with id items
+
 document.getElementById("login")
     .onsubmit = login
 //2.1 Set createPost function as onsubmit handler for the create post form 
 document.getElementById("createPost")
     .onsubmit = createPost
+//R2.1 Set submitQuestion function as onsubmit handler for the submit question form
+
 spawnPosts()
 //1.4 call function to spawn user elements
 spawnUsers()
-//2.2 Define function createPost to send post to server
+//R1.4 call function to spawn item elements
 
+//2.2 Define function createPost to send post to server
 function createPost(e) {
     e.preventDefault()
     const payload = {
@@ -28,6 +34,8 @@ function createPost(e) {
         .then(res => console.log(res.body))
         .catch(error => console.error(error))
 }
+
+//R2.2 Define function submitQuestion to send question to server
 
 function login(e) {
     e.preventDefault()
@@ -63,6 +71,8 @@ function spawnPosts() {
 
 //1.2 define a function to spawn user elements
 function spawnUsers() {
+    //1.3 each user element should be a div that shows user info
+    //... and has a button that says Add Friend (doesn't work)
     const usersHTML = loadData().users.map( user => `
         <div class="user">
             <div class="details">
@@ -77,9 +87,12 @@ function spawnUsers() {
     ` ).join("")
     $usersContainer.innerHTML = usersHTML
 }
-//1.3 each user element should be a div that shows user info
-//... and has a button that says Add Friend (doesn't work)
 
+//R1.2 define a function to spawn item elements
+
+    //R1.3 each item element should be a div that shows item info
+    //... and has a button that says Buy Now (doesn't work)
+    
 function loadData() {
     return {
         posts: [
@@ -140,6 +153,20 @@ function loadData() {
                 lastName: "Kirkland",
                 gender: "F",
                 age: 17
+            }
+        ],
+        items: [
+            {
+                name: "hotdog",
+                price: 1.99
+            },
+            {
+                name: "Nike Shoes",
+                price: 79.99
+            },
+            {
+                name: "Starbucks Gift Card",
+                price: 25.00
             }
         ]
     }

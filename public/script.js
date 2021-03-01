@@ -48,20 +48,26 @@ function login(e) {
 }
 
 function spawnPosts() {
-    const postsHTML = loadData().posts.map( post => `
+   //GET posts from server
+   fetch("/posts")
+    .then(res => res.json())
+    .then(posts => {
+        const postsHTML = posts.map( post => `
         <div class="post">
-            <p>${post.text}</p>
+            <p>${post.content}</p>
             <div class="details">
-                <div>${post.numLikes}</div>
-                <div>${post.user}</div>
-                <div>${post.datetime}</div>
+                <div>${post.userid}</div>
             </div>
         </div>
-    ` ).join("")
-    $postContainer.innerHTML = postsHTML
+        ` ).join("")
+        $postContainer.innerHTML = postsHTML
+    })
+    .catch(err => console.error(err))
+   
 }
 
 //1.2 define a function to spawn user elements
+//4.2 update spawnUsers to pull from server
 function spawnUsers() {
     const usersHTML = loadData().users.map( user => `
         <div class="user">

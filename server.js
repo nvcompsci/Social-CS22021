@@ -15,6 +15,8 @@ app.get("/posts", (req,res) => {
         res.send(rows)
     })
 })
+//4.1 handle a GET request on /users
+
 //3.2 define request handler for POST on /posts
 app.post("/posts", (req,res)=> {
     const post = req.body;
@@ -39,6 +41,8 @@ app.post("/posts", (req,res)=> {
 
 app.post("/login", (req, res) => {
     const user = req.body
+    //5. retrieve all users from database
+    //6. only retrieve users with matching username and password
     let userMatch = users.find( (u) => u.username == user.username && u.password == user.password )
     //Does userMatch exist?
     if (userMatch) {
@@ -50,16 +54,14 @@ app.post("/login", (req, res) => {
     else {
         if (user.username.length >= 4 && user.password.length >= 4) {
             //save new account on server
-            const newUser = {
-                id: users.length+1,
-                username: user.username,
-                password: user.password
-            }
-            users.push(newUser)
-            console.log(users)
-            res.send({
-                message: "Your account was successfully created.",
-                newUser
+            //4. New user is stored in database
+            const sql = "INSERT INTO users (username, password, firstName, lastName) VALUES (?,?,?,?)"
+            db.run(sql,[user.username, user.password, user.firstName, user.lastName],(err) => {
+                if (err) console.error(err)
+                res.send({
+                    message: "Your account was successfully created.",
+                    userId: this.lastID
+                })
             })
         }
         else {

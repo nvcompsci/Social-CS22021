@@ -16,6 +16,25 @@ app.get("/posts", (req,res) => {
     })
 })
 //4.1 handle a GET request on /users
+app.get("/users", (req,res) => {
+    const sql = "SELECT * FROM users"
+    db.all(sql,[],(err, rows) => {
+        res.send(rows)
+    })
+})
+
+app.post("/friends", (req, res) => {
+    const friendship = req.body
+    const sql = "INSERT INTO users_users (userid1, userid2) VALUES (?,?)"
+    //const sql2 = "SELECT firstName, lastName FROM users WHERE id = ?"
+    db.run(sql,[friendship.user_id, friendship.friend_id],(err) => {
+        if (err) console.error(err)
+        res.send({
+            message: "You are now friends!",
+            friendshipID: this.lastID
+        })
+    })
+})
 
 //3.2 define request handler for POST on /posts
 app.post("/posts", (req,res)=> {
@@ -43,19 +62,24 @@ app.post("/login", (req, res) => {
     const user = req.body
     //5. retrieve all users from database
     //6. only retrieve users with matching username and password
-    let userMatch = users.find( (u) => u.username == user.username && u.password == user.password )
+    const sql2 = "SELECT id, first_name, last_name FROM users WHERE username = ? AND password = ?"
+    db.all(sql2,[user.username, user.password],(err, rows) => {
+        if (rows && rows.length > 0) {
+            res.send({
+                message: "Successful login!",
+                user: rows[0]
+            })
+        }
+    
+
+    //let userMatch = users.find( (u) => u.username == user.username && u.password == user.password )
     //Does userMatch exist?
-    if (userMatch) {
-        res.send({
-            message: "Successful login!",
-            userMatch
-        })
-    }
+    
     else {
         if (user.username.length >= 4 && user.password.length >= 4) {
             //save new account on server
             //4. New user is stored in database
-            const sql = "INSERT INTO users (username, password, firstName, lastName) VALUES (?,?,?,?)"
+            const sql = "INSERT INTO users (username, password, first_name, last_name) VALUES (?,?,?,?)"
             db.run(sql,[user.username, user.password, user.firstName, user.lastName],(err) => {
                 if (err) console.error(err)
                 res.send({
@@ -71,6 +95,7 @@ app.post("/login", (req, res) => {
             })
         }
     }
+    })
 })
 
 app.listen(3000, () => console.log("Server started"))
